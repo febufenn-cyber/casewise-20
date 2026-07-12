@@ -1,0 +1,26 @@
+name = "casewise-api"
+main = "apps/api/src/index.ts"
+compatibility_date = "2026-07-01"
+workers_dev = true
+
+[vars]
+MAX_UPLOAD_BYTES = "104857600"
+UPLOAD_TOKEN_TTL_SECONDS = "900"
+DOWNLOAD_TOKEN_TTL_SECONDS = "300"
+PROCESSOR_JOB_TTL_SECONDS = "1800"
+
+[[r2_buckets]]
+binding = "EVIDENCE_BUCKET"
+bucket_name = "casewise-evidence"
+preview_bucket_name = "casewise-evidence-preview"
+
+[[queues.producers]]
+binding = "INGESTION_QUEUE"
+queue = "casewise-ingestion"
+
+[[queues.consumers]]
+queue = "casewise-ingestion"
+max_batch_size = 5
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "casewise-ingestion-dlq"
