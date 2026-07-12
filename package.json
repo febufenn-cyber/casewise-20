@@ -12,11 +12,11 @@
     "validate:phase1": "node scripts/validate-phase1.mjs"
   },
   "dependencies": {
-    "hono": "^4.9.0"
+    "hono": "4.12.29"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260701.0",
-    "typescript": "^5.8.3",
-    "wrangler": "^4.24.3"
+    "@cloudflare/workers-types": "5.20260712.1",
+    "typescript": "5.9.3",
+    "wrangler": "4.110.0"
   }
 }
