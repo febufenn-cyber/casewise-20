@@ -1,42 +1,55 @@
 # Casewise
 
-> upload legal filings or transcripts, agent produces a structured issue summary and drafts a response outline with citations.
+> A source-linked matter intelligence workspace for legal professionals.
 
-**Alternative to the product-shape pioneered by Casetext (YC S13)** — rank #20 of 500 in the [YC-500 Fable 5 Venture Blueprint](https://github.com/) (score 7.05/10).
+Casewise is being designed to convert litigation and arbitration case bundles into a lawyer-reviewable map of documents, parties, events, allegations, responses, evidence, contradictions, and unresolved questions. Every material factual statement must resolve to the uploaded source or be marked unsupported, inferred, contradicted, or uncertain.
 
-## Why this exists
-Proved lawyers pay for AI that drafts and summarizes case documents. The buildable wedge: deposition/brief summarizer for a single practice area.
+## Current status
 
-## MVP scope
-- [ ] Doc upload
-- [ ] issue extraction
-- [ ] summary
-- [ ] outline draft
-- [ ] citation list
+**Phase 0 — Product Constitution and Wedge Selection: implemented as a repository baseline, pending real design-partner validation.**
 
-## Architecture
-`Workers+Supabase+Claude` — Cloudflare Workers + Hono API, Supabase (Postgres + RLS + Auth + pgvector), Claude API via Agent SDK (claude-fable-5 for agent reasoning, claude-haiku-4-5 for volume), wrangler deploys.
+Phase 0 does not claim that the market has been validated. It establishes the product's non-negotiable rules, first customer hypothesis, supported workflow, data boundaries, evaluation contract, pilot plan, and proceed/pivot/kill gates. Phase 1 must not begin merely because the documents exist; the external validation gate in `docs/phase-0/decision-gates.md` must also be satisfied.
 
-**Integrations:** Claude; PDF text extract
-**Data:** Uploaded filings; summary schema
-**Agent core:** Agent reads filings, extracts issues, and drafts a response outline.
+## Initial wedge
 
-## Business
-| | |
-|---|---|
-| Monetization | Per-seat $59-129/month for solo lawyers |
-| First customer | Solo litigators and paralegals |
-| GTM wedge | Legal content SEO; bar-association newsletters |
-| Competition risk | High: CoCounsel, Harvey dominate legal AI |
-| Regulatory/trust risk | High: citation hallucination and UPL risk |
-| India angle | Indian court filing summarization; regional language angle |
-| Difficulty / build time | Medium / 2-3 weeks |
+- **Primary customer hypothesis:** boutique Indian commercial-litigation and arbitration practices with 2–15 lawyers.
+- **Primary user:** junior associate or senior paralegal preparing the first internal matter note.
+- **Economic buyer:** partner or practice head responsible for review quality and team efficiency.
+- **First job:** turn an English-language case bundle into a source-linked matter map.
+- **First work products:** document register, party map, chronology, allegation-response matrix, contradiction register, missing-information register, and internal matter overview.
+- **Explicitly deferred:** autonomous legal advice, filing-ready pleadings, consumer legal chat, outcome prediction, unverified external legal research, and multilingual processing.
 
-## 30-day plan
-- **W1:** core loop — Doc upload + issue extraction
-- **W2:** summary + outline draft + citation list + auth + billing
-- **W3:** polish, instrument events, seed first users via: Legal content SEO; bar-association newsletters
-- **W4:** launch + first revenue; kill/scale decision
+## Product invariant
+
+> Intelligence must never silently detach from evidence.
+
+The structured matter graph is the system of record. Generated prose is only a view derived from that graph.
+
+## Phase 0 repository map
+
+- [`docs/phase-0/`](docs/phase-0/) — constitution, scope, trust rules, economics, pilot design, and merge gates.
+- [`research/interview-guide.md`](research/interview-guide.md) — evidence-oriented design-partner interviews.
+- [`research/design-partner-scorecard.csv`](research/design-partner-scorecard.csv) — partner qualification template.
+- [`evals/`](evals/) — evaluation-pack conventions and machine-readable schemas.
+
+## Planned build sequence
+
+1. **Phase 0:** product constitution and validation.
+2. **Phase 1:** secure ingestion, immutable originals, OCR, page identity, and exact source viewer.
+3. **Phase 2:** document segmentation, entity map, and chronology.
+4. **Phase 3:** allegation-response and evidence matrix.
+5. **Phase 4:** filing-to-filing delta engine.
+6. **Phase 5:** attorney-controlled response outline.
+7. **Phase 6+:** verified authority research, collaboration, trust controls, and expansion.
+
+## Proposed technical direction
+
+The original stack hypothesis remains Cloudflare Workers + Hono, Supabase Postgres/Auth/RLS, object storage, asynchronous document processing, and model-assisted extraction and verification. Phase 0 deliberately avoids locking in model names or a final deployment topology before provider terms, security boundaries, document-processing costs, and evaluation performance are tested.
+
+## Non-goals
+
+Casewise is not a law firm, does not replace professional judgment, and must not represent unreviewed output as attorney-approved. Uploaded documents are untrusted evidence sources, never executable instructions.
 
 ---
-*Built with Fable 5 (Claude Code). Blueprint row: inspired by Casetext — "AI legal research and CoCounsel assistant for lawyers; acquired by Thomson Reuters."*
+
+Original blueprint inspiration: the product category demonstrated by Casetext and later legal-AI systems. Casewise's intended differentiation is evidence provenance, structured matter memory, exception-focused review, and filing-to-filing change detection rather than a generic legal chatbot.
