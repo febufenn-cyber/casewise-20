@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-  phase1:
+  casewise:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,6 +17,7 @@ jobs:
       - run: npm test
       - run: npm run check:migrations
       - run: npm run validate:phase1
+      - run: npm run validate:phase2
       - run: npm run typecheck
       - uses: actions/setup-python@v5
         with:
