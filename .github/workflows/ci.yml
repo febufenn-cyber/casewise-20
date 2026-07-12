@@ -16,6 +16,7 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm run check:migrations
+      - run: npm run validate:phase1
       - run: npm run typecheck
       - uses: actions/setup-python@v5
         with:
