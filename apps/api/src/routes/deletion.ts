@@ -8,7 +8,7 @@ import { serviceRest } from "../lib/supabase";
 
 export const deletion = new Hono<{ Bindings: Env; Variables: Variables }>();
 
-delection.post("/matters/:matterId/deletion", async (c) => {
+deletion.post("/matters/:matterId/deletion", async (c) => {
   const matterId = c.req.param("matterId");
   const user = c.get("user");
   await requireMatterRole(c.env, c.get("accessToken"), user.id, matterId, "matter_manager");
