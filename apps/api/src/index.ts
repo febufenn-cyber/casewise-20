@@ -6,6 +6,7 @@ import { consumeQueue } from "./queue";
 import { deletion } from "./routes/deletion";
 import { documents } from "./routes/documents";
 import { entities } from "./routes/entities";
+import { events } from "./routes/events";
 import { facts } from "./routes/facts";
 import { internal } from "./routes/internal";
 import { matters } from "./routes/matters";
@@ -15,7 +16,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: "2c" }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "2d" }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -26,6 +27,7 @@ app.route("/api", deletion);
 app.route("/api", documents);
 app.route("/api", entities);
 app.route("/api", facts);
+app.route("/api", events);
 
 export default {
   fetch: app.fetch,
