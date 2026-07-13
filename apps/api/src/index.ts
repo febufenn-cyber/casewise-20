@@ -7,6 +7,7 @@ import { allegations } from "./routes/allegations";
 import { chronology } from "./routes/chronology";
 import { contradictions } from "./routes/contradictions";
 import { deletion } from "./routes/deletion";
+import { deltaEvaluations } from "./routes/delta-evaluations";
 import { deltaMatching } from "./routes/delta-matching";
 import { documents } from "./routes/documents";
 import { entities } from "./routes/entities";
@@ -26,7 +27,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: "4d" }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: 4 }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -48,6 +49,7 @@ app.route("/api", filingVersions);
 app.route("/api", deltaMatching);
 app.route("/api", filingDeltas);
 app.route("/api", matterMemory);
+app.route("/api", deltaEvaluations);
 
 export default {
   fetch: app.fetch,
