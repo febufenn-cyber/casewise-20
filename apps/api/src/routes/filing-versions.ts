@@ -20,15 +20,18 @@ type ObjectInput = {
 const OBJECT_TABLES: Record<string, string> = {
   allegation: 'allegations',
   response: 'responses',
+  response_search: 'allegation_response_searches',
   event_assertion: 'event_assertions',
   candidate_event: 'candidate_events',
   evidence_item: 'evidence_items',
+  evidence_relationship: 'proposition_evidence_links',
   contradiction_candidate: 'contradiction_candidates',
   missing_information: 'missing_information_items',
   date_mention: 'date_mentions',
   amount_mention: 'amount_mentions',
   document_reference: 'document_references',
   entity: 'entities',
+  entity_role: 'entity_roles',
 };
 
 async function activeMatter(env: Env, matterId: string) {
@@ -77,7 +80,7 @@ async function loadGraphObjects(env: Env, matterId: string, inputs: ObjectInput[
       object_type: type,
       object_id: objectId,
       source_span_ids: item.source_span_ids ?? [],
-      logical_document_id: item.logical_document_id ?? payload.logical_document_id ?? null,
+      logical_document_id: item.logical_document_id ?? payload.logical_document_id ?? payload.referring_document_id ?? null,
       party_entity_ids: item.party_entity_ids ?? [],
       review_status: item.review_status ?? payload.review_status ?? 'unreviewed',
       payload,
