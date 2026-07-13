@@ -12,6 +12,7 @@ import { entities } from "./routes/entities";
 import { evidence } from "./routes/evidence";
 import { events } from "./routes/events";
 import { facts } from "./routes/facts";
+import { filingVersions } from "./routes/filing-versions";
 import { internal } from "./routes/internal";
 import { matrix } from "./routes/matrix";
 import { matters } from "./routes/matters";
@@ -22,7 +23,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: 3 }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "4a" }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -40,6 +41,7 @@ app.route("/api", responses);
 app.route("/api", evidence);
 app.route("/api", contradictions);
 app.route("/api", matrix);
+app.route("/api", filingVersions);
 
 export default {
   fetch: app.fetch,
