@@ -3,6 +3,7 @@ import type { Env, Variables } from "./env";
 import { requireAuth, requestContext } from "./lib/auth";
 import { jsonError } from "./lib/http";
 import { consumeQueue } from "./queue";
+import { allegations } from "./routes/allegations";
 import { chronology } from "./routes/chronology";
 import { deletion } from "./routes/deletion";
 import { documents } from "./routes/documents";
@@ -17,7 +18,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: 2 }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "3a" }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -30,6 +31,7 @@ app.route("/api", entities);
 app.route("/api", facts);
 app.route("/api", events);
 app.route("/api", chronology);
+app.route("/api", allegations);
 
 export default {
   fetch: app.fetch,
