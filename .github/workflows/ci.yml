@@ -19,18 +19,7 @@ jobs:
       - run: npm run validate:phase1
       - run: npm run validate:phase2
       - run: npm run validate:phase3
-      - name: Typecheck
-        id: typecheck
-        continue-on-error: true
-        run: npm run typecheck > typecheck.log 2>&1
-      - uses: actions/upload-artifact@v4
-        if: steps.typecheck.outcome == 'failure'
-        with:
-          name: typecheck-diagnostics
-          path: typecheck.log
-      - name: Enforce typecheck
-        if: steps.typecheck.outcome == 'failure'
-        run: exit 1
+      - run: npm run typecheck
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
