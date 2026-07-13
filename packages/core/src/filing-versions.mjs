@@ -11,15 +11,18 @@ const FILING_KINDS = new Set([
 const OBJECT_TYPES = new Set([
   'allegation',
   'response',
+  'response_search',
   'event_assertion',
   'candidate_event',
   'evidence_item',
+  'evidence_relationship',
   'contradiction_candidate',
   'missing_information',
   'date_mention',
   'amount_mention',
   'document_reference',
   'entity',
+  'entity_role',
 ]);
 
 const REVIEWED = new Set([
