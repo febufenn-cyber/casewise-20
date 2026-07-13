@@ -6,6 +6,17 @@ import { requireMatterRole } from '../lib/authorization';
 import { ApiError, readJson } from '../lib/http';
 import { serviceRest, userRest } from '../lib/supabase';
 
+interface MatrixRow {
+  allegation_id: string;
+  readiness_status: 'ready' | 'review_required' | 'blocked';
+  warnings: string[];
+  responses: unknown[];
+  evidence: unknown[];
+  contradictions: unknown[];
+  missing_information: unknown[];
+  [key: string]: unknown;
+}
+
 export const matrix = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 async function activeMatter(env: Env, matterId: string) {
@@ -42,14 +53,14 @@ matrix.post('/matters/:matterId/matrix/rebuild', async (c) => {
     if (entry.status === 'unreadable') coverage.unreadable_pages += 1;
     if (entry.status === 'quarantined') coverage.quarantined_files += 1;
   }
-  const rows = buildMatterMatrix({ allegations, response_links: responseLinks, response_searches: responseSearches, evidence_links: evidenceLinks, contradictions: contradictionRows, missing_items: missingItems });
+  const rows = buildMatterMatrix({ allegations, response_links: responseLinks, response_searches: responseSearches, evidence_links: evidenceLinks, contradictions: contradictionRows, missing_items: missingItems }) as MatrixRow[];
   const readiness = matrixReadiness(rows, coverage);
   const versionNumber = Number(versions?.[0]?.version_number ?? 0) + 1; const snapshotId = crypto.randomUUID();
   await serviceRest(c.env, `/matter_matrix_snapshots?matter_id=eq.${matterId}&export_status=not.in.(superseded,deleted)`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify({ export_status: 'superseded' }) });
   await serviceRest(c.env, '/matter_matrix_snapshots', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify({ id: snapshotId, organization_id: matter.organization_id, matter_id: matterId, version_number: versionNumber, processing_version: body.processing_version ?? 'phase3-matrix-v1', row_count: readiness.row_count, blocked_row_count: readiness.blocked_row_count, review_required_row_count: readiness.review_required_row_count, coverage_summary: { ...coverage, coverage_warnings: readiness.coverage_warnings }, export_status: readiness.export_status, created_by: user.id, activated_at: new Date().toISOString() }) });
-  if (rows.length) await serviceRest(c.env, '/matter_matrix_rows', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(rows.map((row) => ({ id: crypto.randomUUID(), organization_id: matter.organization_id, matter_id: matterId, snapshot_id: snapshotId, allegation_id: row.allegation_id, readiness_status: row.readiness_status, warnings: row.warnings, response_summary: row.responses, evidence_summary: row.evidence, contradiction_summary: row.contradictions, missing_summary: row.missing_information, row_data: row }))) });
-  const reviewRows = rows.filter((row) => row.readiness_status !== 'ready');
-  if (reviewRows.length) await serviceRest(c.env, '/review_tasks', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(reviewRows.map((row) => ({ id: crypto.randomUUID(), organization_id: matter.organization_id, matter_id: matterId, task_type: 'matrix_row_review', object_type: 'allegation', object_id: row.allegation_id, priority: row.readiness_status === 'blocked' ? 100 : 50, reason: row.warnings.join(',') }))) });
+  if (rows.length) await serviceRest(c.env, '/matter_matrix_rows', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(rows.map((row: MatrixRow) => ({ id: crypto.randomUUID(), organization_id: matter.organization_id, matter_id: matterId, snapshot_id: snapshotId, allegation_id: row.allegation_id, readiness_status: row.readiness_status, warnings: row.warnings, response_summary: row.responses, evidence_summary: row.evidence, contradiction_summary: row.contradictions, missing_summary: row.missing_information, row_data: row }))) });
+  const reviewRows = rows.filter((row: MatrixRow) => row.readiness_status !== 'ready');
+  if (reviewRows.length) await serviceRest(c.env, '/review_tasks', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(reviewRows.map((row: MatrixRow) => ({ id: crypto.randomUUID(), organization_id: matter.organization_id, matter_id: matterId, task_type: 'matrix_row_review', object_type: 'allegation', object_id: row.allegation_id, priority: row.readiness_status === 'blocked' ? 100 : 50, reason: row.warnings.join(',') }))) });
   await audit(c.env, { organization_id: matter.organization_id, matter_id: matterId, actor_id: user.id, action: 'matter_matrix.rebuilt', resource_type: 'matter_matrix_snapshot', resource_id: snapshotId, request_id: c.get('requestId'), metadata: { version_number: versionNumber, ...readiness } });
   return c.json({ data: { snapshot_id: snapshotId, version_number: versionNumber, ...readiness } }, 201);
 });
