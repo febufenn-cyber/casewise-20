@@ -12,13 +12,14 @@ import { events } from "./routes/events";
 import { facts } from "./routes/facts";
 import { internal } from "./routes/internal";
 import { matters } from "./routes/matters";
+import { responses } from "./routes/responses";
 import { sources } from "./routes/sources";
 import { uploads } from "./routes/uploads";
 
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: "3a" }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "3b" }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -32,6 +33,7 @@ app.route("/api", facts);
 app.route("/api", events);
 app.route("/api", chronology);
 app.route("/api", allegations);
+app.route("/api", responses);
 
 export default {
   fetch: app.fetch,
