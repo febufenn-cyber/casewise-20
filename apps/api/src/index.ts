@@ -17,6 +17,7 @@ import { filingDeltas } from "./routes/filing-deltas";
 import { filingVersions } from "./routes/filing-versions";
 import { internal } from "./routes/internal";
 import { matrix } from "./routes/matrix";
+import { matterMemory } from "./routes/matter-memory";
 import { matters } from "./routes/matters";
 import { responses } from "./routes/responses";
 import { sources } from "./routes/sources";
@@ -25,7 +26,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: "4c" }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "4d" }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -46,6 +47,7 @@ app.route("/api", matrix);
 app.route("/api", filingVersions);
 app.route("/api", deltaMatching);
 app.route("/api", filingDeltas);
+app.route("/api", matterMemory);
 
 export default {
   fetch: app.fetch,
