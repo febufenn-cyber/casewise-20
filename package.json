@@ -1,6 +1,6 @@
 {
   "name": "casewise",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,8 @@
     "check:migrations": "node scripts/check-migrations.mjs",
     "validate:phase1": "node scripts/validate-phase1.mjs",
     "validate:phase2": "node scripts/validate-phase2.mjs",
-    "validate:phase3": "node scripts/validate-phase3.mjs"
+    "validate:phase3": "node scripts/validate-phase3.mjs",
+    "validate:phase4": "node scripts/validate-phase4.mjs"
   },
   "dependencies": {
     "hono": "4.12.29"
