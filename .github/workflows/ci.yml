@@ -19,6 +19,7 @@ jobs:
       - run: npm run validate:phase1
       - run: npm run validate:phase2
       - run: npm run validate:phase3
+      - run: npm run validate:phase4
       - run: npm run typecheck
       - uses: actions/setup-python@v5
         with:
