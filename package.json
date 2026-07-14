@@ -12,7 +12,8 @@
     "validate:phase1": "node scripts/validate-phase1.mjs",
     "validate:phase2": "node scripts/validate-phase2.mjs",
     "validate:phase3": "node scripts/validate-phase3.mjs",
-    "validate:phase4": "node scripts/validate-phase4.mjs"
+    "validate:phase4": "node scripts/validate-phase4.mjs",
+    "validate:roadmap": "node scripts/validate-roadmap.mjs"
   },
   "dependencies": {
     "hono": "4.12.29"

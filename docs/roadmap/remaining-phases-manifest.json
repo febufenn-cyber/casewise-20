@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "roadmap_name": "Casewise controlled pilot-ready v1",
+  "current_completed_phase": 4,
+  "core_remaining_phase_count": 4,
+  "next_phase": 5,
+  "build_trigger": "build",
+  "build_scope": "Implement the next eligible planned phase end-to-end. Use 'build all' only when every remaining phase should be attempted sequentially.",
+  "merge_policy": {
+    "branch_prefix": "agent/",
+    "increment_strategy": "one reviewable pull request per increment",
+    "merge_method": "squash",
+    "target_branch": "main",
+    "require_green_ci_before_merge": true,
+    "verify_main_after_each_merge": true,
+    "report_prs_commits_main_sha_and_ci": true
+  },
+  "autonomy_policy": {
+    "default": "Proceed without clarification using the approved plan and repository conventions.",
+    "stop_only_for": [
+      "missing or invalid production secrets or credentials",
+      "external legal, security, privacy, or provider approval explicitly required by an entry gate",
+      "a destructive or irreversible migration whose safety cannot be established",
+      "a failing main branch or platform outage that prevents trustworthy verification",
+      "a requested action outside the approved phase scope or safety boundaries"
+    ],
+    "never_claim": [
+      "legal-domain accuracy without evaluation evidence",
+      "production authorization without the documented external gates",
+      "successful tests or deployment that did not run",
+      "a push or merge that was not confirmed on remote main"
+    ]
+  },
+  "phases": [
+    {
+      "id": 5,
+      "name": "Reviewed matter overview and attorney-controlled response planning",
+      "version_target": "0.5.0",
+      "status": "planned",
+      "objective": "Create source-bound narrative and planning views only from attorney-approved structured artifacts.",
+      "entry_gates": [
+        "Phase 4 repository implementation and CI are green",
+        "Phase 4 evaluation passes calibrated source-pair, material-omission, precision, recall, and review-time gates",
+        "Phase 1 production security gates are independently satisfied before confidential use",
+        "legal practitioners approve overview and planning terminology"
+      ],
+      "increments": [
+        { "id": "5A", "name": "Narrative support graph", "deliverables": ["sentence-level support objects", "structured-object and source bindings", "unsupported-language blockers"] },
+        { "id": "5B", "name": "Reviewed matter overview snapshots", "deliverables": ["version-locked overview sections", "party/dispute/uncertainty preservation", "source reopening"] },
+        { "id": "5C", "name": "Response-planning workspace", "deliverables": ["allegation-row planning", "factual-answer nodes", "evidence/client-question/contradiction/research tasks"] },
+        { "id": "5D", "name": "Approval, invalidation, and controlled export", "deliverables": ["stale propagation", "attorney approval", "internal-only export gates", "audit lineage"] },
+        { "id": "5E", "name": "Evaluation and exit validation", "deliverables": ["citation fidelity", "unsupported-language rate", "review corrections", "time-saved evaluation", "Phase 6 handoff"] }
+      ],
+      "exit_gates": [
+        "Every narrative sentence and outline node resolves to approved structured support and executable source links",
+        "Zero unsupported material factual statements in the frozen evaluation packs",
+        "Upstream corrections invalidate affected overview and planning snapshots",
+        "Attorney approval is version-specific and cannot be inherited silently",
+        "Lawyer review time improves without increasing material omissions"
+      ],
+      "non_goals": ["filing-ready drafting", "autonomous legal advice", "external authority research", "outcome prediction", "external communications"]
+    },
+    {
+      "id": 6,
+      "name": "Verified legal authority research",
+      "version_target": "0.6.0",
+      "status": "planned",
+      "objective": "Add a separate, verifiable authority-research system that never mixes legal authorities with matter evidence.",
+      "entry_gates": [
+        "Phase 5 exit gates pass",
+        "approved authority sources, licences, provider terms, and retention policies are documented",
+        "jurisdiction, court, date, and authority-status metadata requirements are approved",
+        "live provider credentials are available or provider-neutral fixtures are explicitly accepted for repository-only implementation"
+      ],
+      "increments": [
+        { "id": "6A", "name": "Authority source registry and query contract", "deliverables": ["approved-source registry", "jurisdiction/court/date filters", "provider-neutral adapters"] },
+        { "id": "6B", "name": "Immutable authority ingestion", "deliverables": ["source copies and hashes", "paragraph/page identity", "citation metadata", "coverage and failure ledger"] },
+        { "id": "6C", "name": "Proposition-authority mapping", "deliverables": ["supports/distinguishes/contradicts links", "quoted proposition spans", "reviewable treatment warnings"] },
+        { "id": "6D", "name": "Research workspace", "deliverables": ["research questions", "authority comparison", "separate evidence/authority views", "attorney approvals"] },
+        { "id": "6E", "name": "Authority evaluation and exit", "deliverables": ["citation accuracy", "authority-existence verification", "proposition-support evaluation", "Phase 7 handoff"] }
+      ],
+      "exit_gates": [
+        "Every authority citation opens the exact verified source location",
+        "Matter evidence and external authority stores remain logically and visibly separate",
+        "No fabricated authority identifiers, quotations, courts, dates, or treatments in evaluation packs",
+        "Material research conclusions require attorney review",
+        "Provider and licence conditions are enforced by source registry policy"
+      ],
+      "non_goals": ["autonomous legal advice", "unverified open-web citations", "outcome prediction", "automatic filing submission", "cross-customer confidential retrieval"]
+    },
+    {
+      "id": 7,
+      "name": "Controlled drafting, collaboration, and export",
+      "version_target": "0.7.0",
+      "status": "planned",
+      "objective": "Turn approved plans and authorities into collaborative, versioned attorney drafts with strict approval and export controls.",
+      "entry_gates": [
+        "Phase 6 authority verification and evaluation gates pass",
+        "document templates and jurisdiction-specific export requirements are approved",
+        "privilege, confidentiality, support-access, and collaboration policies are approved",
+        "the organization defines who may draft, review, approve, and export"
+      ],
+      "increments": [
+        { "id": "7A", "name": "Collaboration and review threads", "deliverables": ["assignments", "comments", "review requests", "role-based workflow", "audit events"] },
+        { "id": "7B", "name": "Versioned drafting workspace", "deliverables": ["draft sections from approved outline nodes", "matter and authority bindings", "redlines and revisions"] },
+        { "id": "7C", "name": "Citation and record assembly", "deliverables": ["record citations", "authority citations", "tables of references", "source-integrity checks"] },
+        { "id": "7D", "name": "Approval and export package", "deliverables": ["attorney approval", "DOCX/PDF export adapters", "watermarks and disclaimers", "export manifest"] },
+        { "id": "7E", "name": "Drafting evaluation and exit", "deliverables": ["unsupported-draft rate", "citation fidelity", "redline burden", "export verification", "Phase 8 handoff"] }
+      ],
+      "exit_gates": [
+        "No draft is represented as filing-ready without named attorney approval of the exact version",
+        "Every material factual and legal proposition has valid approved support or a visible unresolved marker",
+        "Exports are reproducible from an immutable manifest",
+        "Permissions, privilege boundaries, and audit history survive collaboration and export",
+        "Draft review demonstrates measurable time savings without increased correction severity"
+      ],
+      "non_goals": ["autonomous filing", "autonomous client or opposing-counsel contact", "guaranteed legal correctness", "unsupervised strategy decisions", "outcome prediction"]
+    },
+    {
+      "id": 8,
+      "name": "Production pilot and general-availability readiness",
+      "version_target": "1.0.0",
+      "status": "planned",
+      "objective": "Harden, deploy, operate, and evaluate Casewise as a controlled design-partner product with explicit proceed, pivot, or stop gates.",
+      "entry_gates": [
+        "Phase 7 product and evaluation gates pass",
+        "approved production cloud accounts, regions, secrets, domains, and provider contracts exist",
+        "design partners and permissible pilot matters are confirmed",
+        "incident, privacy, retention, deletion, support-access, and commercial terms are approved"
+      ],
+      "increments": [
+        { "id": "8A", "name": "Production infrastructure and recovery", "deliverables": ["infrastructure as code", "environment isolation", "backup/restore", "disaster recovery", "secret rotation"] },
+        { "id": "8B", "name": "Operations and trust controls", "deliverables": ["SLOs", "alerts", "incident response", "support-access workflow", "security monitoring"] },
+        { "id": "8C", "name": "Tenant administration, quotas, and economics", "deliverables": ["organization admin", "usage limits", "cost accounting", "billing-ready ledger", "abuse controls"] },
+        { "id": "8D", "name": "Independent assurance", "deliverables": ["penetration test fixes", "RLS and isolation review", "privacy/deletion verification", "threat-model closure"] },
+        { "id": "8E", "name": "Design-partner pilot and launch decision", "deliverables": ["pilot dashboards", "quality and time-saved metrics", "support findings", "proceed/pivot/kill decision", "1.0 release checklist"] }
+      ],
+      "exit_gates": [
+        "Independent security and isolation testing passes",
+        "Deletion, restoration, incident, and provider-failure drills pass",
+        "Pilot quality and time-saved metrics meet approved thresholds",
+        "Unit economics and operational support load are acceptable",
+        "Named product, legal, security, and business owners approve the 1.0 decision"
+      ],
+      "non_goals": ["multilingual expansion", "additional jurisdictions", "broad third-party integrations", "consumer legal chat", "autonomous legal services"]
+    }
+  ],
+  "optional_expansion": {
+    "phase_label": "9+",
+    "examples": ["multilingual processing", "additional jurisdictions", "enterprise integrations", "advanced analytics", "new practice areas"],
+    "rule": "Optional expansion begins only after the Phase 8 launch decision and must receive its own scoped plan and evaluation gates."
+  }
+}
