@@ -27,10 +27,10 @@ export type ValidatedPlanNode = {
   support_bindings: PlanSupportBinding[];
   warnings: string[];
 };
-export type PlanDependency = { node_id: string; depends_on_node_id: string };
+export type PlanDependency = { node_id: string; depends_on_node_id: string; dependency_type?: string };
 export function validatePlanNode(input?: PlanNodeInput): ValidatedPlanNode;
-export function validatePlanDependencies(nodes?: Array<Record<string, any>>, dependencies?: PlanDependency[]): true;
-export function responsePlanReadiness(nodes?: Array<Record<string, any>>, dependencies?: PlanDependency[], context?: Record<string, unknown>): {
+export function validatePlanDependencies(nodes?: Array<Record<string, any>>, dependencies?: Array<{ node_id: string; depends_on_node_id: string; [key: string]: any }>): true;
+export function responsePlanReadiness(nodes?: Array<Record<string, any>>, dependencies?: Array<Record<string, any>>, context?: Record<string, unknown>): {
   ready_for_approval: boolean;
   node_count: number;
   unreviewed_node_count: number;
