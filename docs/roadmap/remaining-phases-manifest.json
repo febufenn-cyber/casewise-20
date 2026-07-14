@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "roadmap_name": "Casewise controlled pilot-ready v1",
-  "current_completed_phase": 4,
-  "core_remaining_phase_count": 4,
-  "next_phase": 5,
+  "current_completed_phase": 5,
+  "core_remaining_phase_count": 3,
+  "next_phase": 6,
   "build_trigger": "build",
   "build_scope": "Implement the next eligible planned phase end-to-end. Use 'build all' only when every remaining phase should be attempted sequentially.",
   "merge_policy": {
@@ -36,7 +36,7 @@
       "id": 5,
       "name": "Reviewed matter overview and attorney-controlled response planning",
       "version_target": "0.5.0",
-      "status": "planned",
+      "status": "completed",
       "objective": "Create source-bound narrative and planning views only from attorney-approved structured artifacts.",
       "entry_gates": [
         "Phase 4 repository implementation and CI are green",
