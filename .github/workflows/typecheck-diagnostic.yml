@@ -1,0 +1,27 @@
+name: Typecheck diagnostic
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Capture TypeScript diagnostics
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > typecheck-diagnostic.txt 2>&1
+          echo $? > typecheck-exit-code.txt
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase5d-typecheck-diagnostic
+          path: |
+            typecheck-diagnostic.txt
+            typecheck-exit-code.txt
