@@ -31,6 +31,6 @@ export type ValidatedPhase5Evaluation = {
   notes: string | null;
 };
 export function validatePhase5EvaluationInput(input?: Phase5EvaluationInput): ValidatedPhase5Evaluation;
-export function computePhase5Evaluation(observations?: ValidatedPhase5Observation[], timing?: Record<string, number>): Record<string, any>;
+export function computePhase5Evaluation(observations?: ValidatedPhase5Observation[], timing?: { baseline_minutes?: number; casewise_minutes?: number }): Record<string, any>;
 export function evaluatePhase5Gate(metrics: Record<string, any>, thresholds?: Record<string, number>): { gate_status: 'passed' | 'failed' | 'incomplete'; reasons: string[]; thresholds: Record<string, number> };
 export const phase5EvaluationConstants: Record<string, string[]>;
