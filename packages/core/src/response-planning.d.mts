@@ -1,0 +1,44 @@
+export type PlanSupportBindingInput = { object_type?: string; object_id?: string; source_span_id?: string; support_role?: string };
+export type PlanSupportBinding = { object_type: string; object_id: string; source_span_id: string; support_role: 'primary' | 'supporting' | 'context' | 'contradictory' | 'question_basis' };
+export type PlanNodeInput = {
+  matrix_row_id?: string;
+  allegation_id?: string;
+  node_type?: string;
+  title?: string;
+  details?: string;
+  materiality?: string;
+  node_status?: string;
+  assigned_to?: string | null;
+  due_at?: string | null;
+  position?: number;
+  support_bindings?: PlanSupportBindingInput[];
+};
+export type ValidatedPlanNode = {
+  matrix_row_id: string;
+  allegation_id: string;
+  node_type: string;
+  title: string;
+  details: string | null;
+  materiality: string;
+  node_status: string;
+  assigned_to: string | null;
+  due_at: string | null;
+  position: number;
+  support_bindings: PlanSupportBinding[];
+  warnings: string[];
+};
+export type PlanDependency = { node_id: string; depends_on_node_id: string; dependency_type?: string };
+export function validatePlanNode(input?: PlanNodeInput): ValidatedPlanNode;
+export function validatePlanDependencies(nodes?: Array<Record<string, any>>, dependencies?: Array<{ node_id: string; depends_on_node_id: string; [key: string]: any }>): true;
+export function responsePlanReadiness(nodes?: Array<Record<string, any>>, dependencies?: Array<Record<string, any>>, context?: Record<string, unknown>): {
+  ready_for_approval: boolean;
+  node_count: number;
+  unreviewed_node_count: number;
+  missing_source_count: number;
+  blocked_node_count: number;
+  authority_research_task_count: number;
+  production_use_allowed: false;
+  warnings: string[];
+};
+export function responsePlanSummary(nodes?: Array<Record<string, any>>): Record<string, number>;
+export const responsePlanningConstants: Record<string, string[]>;
