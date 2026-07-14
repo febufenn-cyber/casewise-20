@@ -6,9 +6,9 @@ Casewise is being designed to convert litigation and arbitration case bundles in
 
 ## Current status
 
-**Phase 0 — Product Constitution and Wedge Selection: implemented as a repository baseline, pending real design-partner validation.**
+**Phases 0–4 are implemented in the repository. Production deployment, independent security verification, legal-domain evaluation, and design-partner evidence remain pending.**
 
-Phase 0 does not claim that the market has been validated. It establishes the product's non-negotiable rules, first customer hypothesis, supported workflow, data boundaries, evaluation contract, pilot plan, and proceed/pivot/kill gates. Phase 1 must not begin merely because the documents exist; the external validation gate in `docs/phase-0/decision-gates.md` must also be satisfied.
+The implemented layers cover the product constitution, secure evidence custody, document and chronology intelligence, allegation-response-evidence mapping, filing-to-filing deltas, matter memory, and executable evaluation gates. Repository completion does not by itself authorize confidential production use or establish legal accuracy.
 
 ## Initial wedge
 
@@ -17,7 +17,7 @@ Phase 0 does not claim that the market has been validated. It establishes the pr
 - **Economic buyer:** partner or practice head responsible for review quality and team efficiency.
 - **First job:** turn an English-language case bundle into a source-linked matter map.
 - **First work products:** document register, party map, chronology, allegation-response matrix, contradiction register, missing-information register, and internal matter overview.
-- **Explicitly deferred:** autonomous legal advice, filing-ready pleadings, consumer legal chat, outcome prediction, unverified external legal research, and multilingual processing.
+- **Explicitly deferred:** autonomous legal advice, autonomous filing or communications, consumer legal chat, outcome prediction, and unreviewed external legal research.
 
 ## Product invariant
 
@@ -25,26 +25,33 @@ Phase 0 does not claim that the market has been validated. It establishes the pr
 
 The structured matter graph is the system of record. Generated prose is only a view derived from that graph.
 
-## Phase 0 repository map
+## Repository map
 
 - [`docs/phase-0/`](docs/phase-0/) — constitution, scope, trust rules, economics, pilot design, and merge gates.
-- [`research/interview-guide.md`](research/interview-guide.md) — evidence-oriented design-partner interviews.
-- [`research/design-partner-scorecard.csv`](research/design-partner-scorecard.csv) — partner qualification template.
+- [`docs/phase-1/`](docs/phase-1/) through [`docs/phase-4/`](docs/phase-4/) — implemented phase contracts, handoffs, and exit reviews.
+- [`docs/roadmap/remaining-phases-autonomous-build-plan.md`](docs/roadmap/remaining-phases-autonomous-build-plan.md) — verified autonomous implementation protocol for the remaining core phases.
+- [`docs/roadmap/remaining-phases-manifest.json`](docs/roadmap/remaining-phases-manifest.json) — machine-readable roadmap source of truth.
+- [`research/`](research/) — design-partner research materials.
 - [`evals/`](evals/) — evaluation-pack conventions and machine-readable schemas.
 
-## Planned build sequence
+## Build sequence
 
-1. **Phase 0:** product constitution and validation.
-2. **Phase 1:** secure ingestion, immutable originals, OCR, page identity, and exact source viewer.
-3. **Phase 2:** document segmentation, entity map, and chronology.
-4. **Phase 3:** allegation-response and evidence matrix.
-5. **Phase 4:** filing-to-filing delta engine.
-6. **Phase 5:** attorney-controlled response outline.
-7. **Phase 6+:** verified authority research, collaboration, trust controls, and expansion.
+1. **Phase 0:** product constitution and validation — implemented.
+2. **Phase 1:** secure ingestion, immutable originals, OCR, page identity, and exact source viewer — implemented.
+3. **Phase 2:** document segmentation, entity map, and chronology — implemented.
+4. **Phase 3:** allegation-response and evidence matrix — implemented.
+5. **Phase 4:** filing-to-filing delta engine and matter memory — implemented.
+6. **Phase 5:** reviewed matter overview and attorney-controlled response planning — planned.
+7. **Phase 6:** verified legal authority research — planned.
+8. **Phase 7:** controlled drafting, collaboration, and export — planned.
+9. **Phase 8:** production pilot and general-availability readiness — planned.
+10. **Phase 9+:** optional multilingual, jurisdictional, integration, and practice-area expansion.
+
+Four core phases remain before the controlled pilot-ready v1 finish line. Saying `build` instructs the implementation agent to verify and implement the next eligible phase end-to-end under the roadmap contract, including green CI, squash merges, remote `main` verification, and exact commit confirmation.
 
 ## Proposed technical direction
 
-The original stack hypothesis remains Cloudflare Workers + Hono, Supabase Postgres/Auth/RLS, object storage, asynchronous document processing, and model-assisted extraction and verification. Phase 0 deliberately avoids locking in model names or a final deployment topology before provider terms, security boundaries, document-processing costs, and evaluation performance are tested.
+The stack remains Cloudflare Workers + Hono, Supabase Postgres/Auth/RLS, object storage, asynchronous document processing, and model-assisted extraction and verification. Provider-specific production features remain gated by security, privacy, licensing, retention, regional, cost, and evaluation requirements.
 
 ## Non-goals
 
