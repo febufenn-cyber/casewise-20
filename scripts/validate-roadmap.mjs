@@ -12,9 +12,9 @@ function assert(condition, message) {
 }
 
 assert(manifest.schema_version === 1, 'Roadmap schema_version must be 1');
-assert(manifest.current_completed_phase === 4, 'Roadmap must begin after completed Phase 4');
-assert(manifest.core_remaining_phase_count === 4, 'Roadmap must define exactly four core remaining phases');
-assert(manifest.next_phase === 5, 'Next planned phase must be Phase 5');
+assert(Number.isInteger(manifest.current_completed_phase) && manifest.current_completed_phase >= 4 && manifest.current_completed_phase <= 8, 'Completed phase must be between 4 and 8');
+assert(manifest.core_remaining_phase_count === 8 - manifest.current_completed_phase, 'Remaining phase count must match completed phase');
+assert(manifest.next_phase === (manifest.current_completed_phase < 8 ? manifest.current_completed_phase + 1 : null), 'Next phase must immediately follow the completed phase');
 assert(manifest.build_trigger === 'build', 'Build trigger must be exactly "build"');
 assert(manifest.merge_policy?.target_branch === 'main', 'Roadmap merge target must be main');
 assert(manifest.merge_policy?.merge_method === 'squash', 'Roadmap merge method must be squash');
@@ -27,7 +27,8 @@ assert(JSON.stringify(phases.map((phase) => phase.id)) === JSON.stringify([5, 6,
 
 const incrementIds = new Set();
 for (const phase of phases) {
-  assert(phase.status === 'planned', `Phase ${phase.id} must be planned`);
+  const expectedStatus = phase.id <= manifest.current_completed_phase ? 'completed' : 'planned';
+  assert(phase.status === expectedStatus, `Phase ${phase.id} must be ${expectedStatus}`);
   assert(typeof phase.name === 'string' && phase.name.length > 8, `Phase ${phase.id} name missing`);
   assert(typeof phase.objective === 'string' && phase.objective.length > 20, `Phase ${phase.id} objective missing`);
   assert(/^\d+\.\d+\.\d+$/.test(phase.version_target), `Phase ${phase.id} version target is invalid`);
@@ -63,4 +64,4 @@ assert(manifest.optional_expansion?.phase_label === '9+', 'Optional expansion mu
 assert(Array.isArray(manifest.autonomy_policy?.stop_only_for) && manifest.autonomy_policy.stop_only_for.length >= 5, 'Autonomy stop conditions are incomplete');
 assert(Array.isArray(manifest.autonomy_policy?.never_claim) && manifest.autonomy_policy.never_claim.length >= 4, 'Trustworthiness rules are incomplete');
 
-console.log(`Validated remaining-phases roadmap: ${phases.length} core phases, ${incrementIds.size} increments, build trigger '${manifest.build_trigger}'.`);
+console.log(`Validated roadmap after Phase ${manifest.current_completed_phase}: ${manifest.core_remaining_phase_count} core phases remain, ${incrementIds.size} increments retained, next phase ${manifest.next_phase ?? 'none'}.`);
