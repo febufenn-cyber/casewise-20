@@ -1,6 +1,6 @@
 {
   "name": "casewise",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,6 +13,7 @@
     "validate:phase2": "node scripts/validate-phase2.mjs",
     "validate:phase3": "node scripts/validate-phase3.mjs",
     "validate:phase4": "node scripts/validate-phase4.mjs",
+    "validate:phase5": "node scripts/validate-phase5.mjs",
     "validate:roadmap": "node scripts/validate-roadmap.mjs"
   },
   "dependencies": {
