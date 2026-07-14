@@ -1,3 +1,10 @@
+export type NarrativeSupportBindingInput = {
+  object_type?: string;
+  object_id?: string;
+  source_span_id?: string;
+  support_role?: string;
+};
+
 export type NarrativeSupportBinding = {
   object_type: string;
   object_id: string;
@@ -17,8 +24,7 @@ export type NarrativeSentenceInput = {
   omission_status?: string;
   creation_method?: string;
   processing_version?: string;
-  support_bindings?: Array<Partial<NarrativeSupportBinding>>;
-  [key: string]: unknown;
+  support_bindings?: NarrativeSupportBindingInput[];
 };
 
 export type ValidatedNarrativeSentence = {
