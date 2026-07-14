@@ -76,7 +76,7 @@ async function loadPlan(env: Env, matterId: string, planId: string): Promise<Pla
     ? await serviceRest(env, `/response_plan_node_supports?plan_node_id=in.(${nodeIds.join(',')})&matter_id=eq.${matterId}&select=*`) as Record<string, any>[]
     : [];
   const dependencies = await serviceRest(env, `/response_plan_dependencies?plan_snapshot_id=eq.${planId}&matter_id=eq.${matterId}&select=node_id,depends_on_node_id,dependency_type`) as Record<string, any>[];
-  const normalized = nodes.map((node) => ({ ...node, support_count: supports.filter((support) => support.plan_node_id === node.id).length }));
+  const normalized: Record<string, any>[] = nodes.map((node) => ({ ...node, support_count: supports.filter((support) => support.plan_node_id === node.id).length }));
   const readiness = responsePlanReadiness(normalized, dependencies, { matrix_snapshot_attorney_approved: true, overview_ready: true });
   const entries = normalized.map((node) => ({
     node_id: node.id,
