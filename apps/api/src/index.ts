@@ -22,6 +22,7 @@ import { matterMemory } from "./routes/matter-memory";
 import { matterOverviews } from "./routes/matter-overviews";
 import { matters } from "./routes/matters";
 import { narrativeSupport } from "./routes/narrative-support";
+import { phase5Controls } from "./routes/phase5-controls";
 import { responsePlanning } from "./routes/response-planning";
 import { responses } from "./routes/responses";
 import { sources } from "./routes/sources";
@@ -30,7 +31,7 @@ import { uploads } from "./routes/uploads";
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 app.use("*", requestContext);
 app.onError((error, c) => jsonError(c, error));
-app.get("/healthz", (c) => c.json({ status: "ok", phase: "5c", production_use_allowed: false }));
+app.get("/healthz", (c) => c.json({ status: "ok", phase: "5d", production_use_allowed: false }));
 app.route("/internal", internal);
 app.use("/api/*", requireAuth);
 app.get("/api/me", (c) => c.json({ data: c.get("user") }));
@@ -56,6 +57,7 @@ app.route("/api", deltaEvaluations);
 app.route("/api", narrativeSupport);
 app.route("/api", matterOverviews);
 app.route("/api", responsePlanning);
+app.route("/api", phase5Controls);
 
 export default {
   fetch: app.fetch,
